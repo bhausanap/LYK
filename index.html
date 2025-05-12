@@ -104,21 +104,55 @@
             <button onclick="calculate()">Calculate</button>
       
              <button type="button" class="btn btn-danger" onclick="clearFields()">clear</button>
-        </div>
+        </div> <br>
 
        
 
-        <label class="rup"><strong>लागणारा खर्च ₹ </strong></label>
+        <label class="rup"><strong>लागणारा खर्च  <span id="bhige"> </span><span id="gunthe"></span></strong></label>
         <input type="text" id="output" readonly>
+
+        <label>तूम्हाला हा खर्च वाटप  करायचा आहे का मजुरामद्धे ?</label>
+<select id="enableOption" onchange="toggleInputField()">
+    <option value="no">नाही </option>
+    <option value="yes">हो </option>
+</select>
+
+<div id="extraInputBlock" style="display: none; margin-top: 10px;">
+    <label for="extraNumber">एकूण मजूर किती आहे ते टाका </label>
+    <input type="text" id="extraNumber" />
+    <span id="majur" class="rup"></span>
+</div>
+
+<br>
+<button id="runBtn" onclick="checkOption()" style="display: none;">Calculate</button>
+         
+
     </div>
 
+   
+    
+
     <script>
+        majur;
         function calculate() {
             const bhav = parseFloat(document.getElementById('bhav').value);
             const shetra = parseFloat(document.getElementById('shetra').value);
             if (!isNaN(bhav) && !isNaN(shetra)) {
                 const result = (bhav / 20) * shetra;
+                bhige=shetra/20;
+                final=Math.trunc(bhige)
+                final1=final+ " भिगे आणि "
+                console.log(final)
+                gunthe=bhige-Math.floor(bhige)
+                temp=Math.trunc((gunthe*10)*2)
+                temp1=temp+"गुंठे साठी "
+                majur=result;
+                
+                
+                console.log(temp);
                 document.getElementById('output').value = result.toFixed();
+                document.getElementById('bhige').innerHTML=final1;
+                 document.getElementById('gunthe').innerHTML=temp1;
             } else {
                 alert("कृपया योग्य संख्या टाका.");
             }
@@ -128,7 +162,57 @@
             document.getElementById('bhav').value = '';
             document.getElementById('shetra').value = '';
             document.getElementById('output').value = '';
+             document.getElementById('gunthe').innerHTML="";
+              document.getElementById('bhige').innerHTML="";
+
         }
+
+        function checkToggle() {
+    const selected = document.querySelector('input[name="toggle"]:checked').value;
+
+    if (selected === "yes") {
+        // ✅ Run the block
+        console.log("Feature enabled");
+    } else {
+        console.log("Feature disabled");
+    }
+}
+
+    function toggleInputField() {
+    const option = document.getElementById("enableOption").value;
+    const inputBlock = document.getElementById("extraInputBlock");
+    const runBtn = document.getElementById("runBtn");
+
+
+    if (option === "yes") {
+        inputBlock.style.display = "block";
+        runBtn.style.display = "inline-block";
+    } else {
+        inputBlock.style.display = "none";
+        runBtn.style.display = "none";
+    }
+}
+
+function checkOption() {
+    const choice = document.getElementById("enableOption").value;
+    
+      
+
+    if (choice === "yes") {
+        const number = document.getElementById("extraNumber").value;
+        console.log("User enabled the option. Entered number:", number);
+        const abc=majur/number;
+        
+        const xyz=abc.toFixed() +" रूपये येतील प्रत्येकी एक मुजराला "
+          document.getElementById('majur').innerHTML=xyz
+        // You can use this number in your logic
+    } else {
+        console.log("User did not enable the option. Skipping input.");
+    }
+}
+
+
+
     </script>
 </body>
 </html>
